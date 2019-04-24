@@ -4,8 +4,8 @@ import math
 
 # Primeira Tarefa
 
-def sincos(a,b):      # função que calcula os valores de sin e cos a serem utilizados
-                      # na Rotação de Givens
+def sincos(a,b):      # função que calcula os valores de sin(s) e cos(c)
+                      # a serem utilizados na Rotação de Givens
     if abs(a)>abs(b):    # se |W[i][k]| > |W[j][k]|
         tau = -b/a       
         c = 1/math.sqrt(1+tau**2)
@@ -21,7 +21,6 @@ def rotgivens(W,n,m,i,j,c,s):
         aux = c*W[i][r]-s*W[j][r]
         W[j][r] = s*W[i][r]+c*W[j][r]
         W[i][r] = aux
-    return W
 
 def fatqr(W,n,m,i,j,c,s):
     for k in range(1,m):
@@ -40,12 +39,12 @@ def criamatriz(n,m,item):    # função para criar as matrizes dos testes a) e b
         # laço para preencher a matriz conforme pedido no enunciado
         # como índices de matrizes começam em 0 em Python, faz-se -1 nos índices de W
         for i in range (1,n+1):  
-            for j in range(1,m+1):
-                W[i-1][i-1]=2
+            for j in range(1,m+1):                
                 if abs(i-j)==1:
                     W[i-1][j-1]=1
                 else:
                     W[i-1][j-1]=0
+                W[i-1][i-1]=2
     if item == "b":
         W = np.zeros((n,m))      # cria matriz de zeros
         b = np.zeros((n,1))      # cria matriz de zeros
@@ -64,12 +63,19 @@ def criamatriz(n,m,item):    # função para criar as matrizes dos testes a) e b
 # realiza testes a) ou b)
 item = input("Qual o item ('a' ou 'b') a ser testado: ")  
 if item == "a":
-    a,b = criamatriz(64,64,item)
+    n = 64
+    m = 64
+    W,b = criamatriz(n,m,item)
 elif item == "b":
-    a,b = criamatriz(20,17,item)
+    lin = 20
+    col = 17
+    W,b = criamatriz(n,m,item)
 else:
     print("Teste não existente.")
-    
-# c,s = sincos(2,-1)
-# print(c)
-# print(s)
+
+print(W)
+
+# p = W(i,j)
+# q = W(i+1,j)
+# c,s = sincos(p,q)
+# fatqr(W,n,m,i,j,c,s)
