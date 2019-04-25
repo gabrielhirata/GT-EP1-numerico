@@ -16,18 +16,21 @@ def sincos(a,b):      # função que calcula os valores de sin(s) e cos(c)
         c = s*tau
     return c,s
 
-def rotgivens(W,n,m,i,j,c,s):
-    for r in range(1,n):
-        aux = c*W[i][r]-s*W[j][r]
-        W[j][r] = s*W[i][r]+c*W[j][r]
+def rotgivens(W,n,m,i,j,k,c,s):
+    for r in range(k,m-1):
+        aux = c*W[i][r] - s*W[j][r]
+        W[j][r] = s*W[i][r] + c*W[j][r]
         W[i][r] = aux
 
-def fatqr(W,n,m,i,j,c,s):
-    for k in range(1,m):
-        for j in range(n,k+1,-1):
-            i=j-1
+def fatqr(W,n,m):
+    for k in range(0,m-1):
+        for j in range(n-1,k,-1):
+            i = j-1
             if W[j][k] != 0:
-                rotgivens(W,n,m,i,j,c,s)
+                p = W[i][k]
+                q = W[j][k]
+                c,s = sincos(p,q)
+                rotgivens(W,n,m,i,j,k,c,s)
 #    for k in range(m,1,-1):
 #        x[k]=(b[k]-
 
@@ -67,15 +70,15 @@ if item == "a":
     m = 64
     W,b = criamatriz(n,m,item)
 elif item == "b":
-    lin = 20
-    col = 17
+    n = 20
+    m = 17
     W,b = criamatriz(n,m,item)
 else:
     print("Teste não existente.")
 
 print(W)
-
-# p = W(i,j)
-# q = W(i+1,j)
-# c,s = sincos(p,q)
-# fatqr(W,n,m,i,j,c,s)
+fatqr(W,n,m)
+for i in range(0,n-1):
+    for j in range(0, m-1):
+        if i > j:
+            print(W[i][j])
