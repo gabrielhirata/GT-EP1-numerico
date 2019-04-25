@@ -1,4 +1,4 @@
-# EP1 - Numérico
+# EP1 - Numérico  Gabriel Hirata e Thiago Takabatake
 import numpy as np     
 import math         
 
@@ -16,13 +16,16 @@ def sincos(a,b):      # função que calcula os valores de sin(s) e cos(c)
         c = s*tau
     return c,s
 
-def rotgivens(W,n,m,i,j,k,c,s):
+def rotgivens(W,b,n,m,i,j,k,c,s):
     for r in range(k,m-1):
         aux = c*W[i][r] - s*W[j][r]
         W[j][r] = s*W[i][r] + c*W[j][r]
         W[i][r] = aux
+    aux2 = c*b[i] - s*b[j]
+    b[j] = s*b[i] + c*b[j]
+    b[i] = aux2
 
-def fatqr(W,n,m):
+def fatqr(W,b,n,m):
     for k in range(0,m-1):
         for j in range(n-1,k,-1):
             i = j-1
@@ -30,7 +33,7 @@ def fatqr(W,n,m):
                 p = W[i][k]
                 q = W[j][k]
                 c,s = sincos(p,q)
-                rotgivens(W,n,m,i,j,k,c,s)
+                rotgivens(W,b,n,m,i,j,k,c,s)
 #    for k in range(m,1,-1):
 #        x[k]=(b[k]-
 
@@ -77,8 +80,10 @@ else:
     print("Teste não existente.")
 
 print(W)
-fatqr(W,n,m)
+print(b)
+fatqr(W,b,n,m)
 for i in range(0,n-1):
     for j in range(0, m-1):
-        if i > j:
+        if i > j and W[i][j] != 0:
             print(W[i][j])
+print(b)
