@@ -18,7 +18,7 @@ def sincos(a,b):      # funcao que calcula os valores de sin(s) e cos(c)
 
 def rotgivens(W,b,n,m,i,j,k,c,s):
     # aplica a Rotacao de Givens nas linhas i e j da matriz W
-    for r in range(k,m-1):
+    for r in range(k,m):
         aux = c*W[i][r] - s*W[j][r]
         W[j][r] = s*W[i][r] + c*W[j][r]
         W[i][r] = aux
@@ -27,14 +27,14 @@ def rotgivens(W,b,n,m,i,j,k,c,s):
     b[j] = s*b[i] + c*b[j]
     b[i] = aux2
 
-def somatorio(W,b,x,k):
+def somatorio(W,x,k):
     soma = 0
-    for j in range(k+1,m-1):
+    for j in range(k+1,m):
         soma = soma + W[k][j]*x[j]
     return soma
 
 def fatqr(W,b,n,m):
-    for k in range(0,m-1):
+    for k in range(m):
         for j in range(n-1,k,-1):
             i = j-1
             if W[j][k] != 0:
@@ -43,12 +43,12 @@ def fatqr(W,b,n,m):
                 c,s = sincos(p,q)
                 rotgivens(W,b,n,m,i,j,k,c,s)
     for k in range(m-1,-1,-1):
-        x[k] = (b[k]- somatorio(W,b,x,k))/W[k][k]
+        x[k] = (b[k]- somatorio(W,x,k))/W[k][k]
 
 def criamatriz(n,m,item):    # função para criar as matrizes dos testes a) e b) 
                              # dados no enunciado
     if item == "a":
-        W = np.zeros((n,m))  # cria matriz de zeros
+        W = np.zeros((n,m))    # cria matriz de zeros
         b = np.ones((n,1))     # cria matriz de "uns"
         # laco para preencher a matriz conforme pedido no enunciado
         # como indices de matrizes começam em 0 em Python, faz-se -1 nos indices de W
@@ -91,9 +91,10 @@ else:
 
 print(W)
 fatqr(W,b,n,m)
-for i in range(0,n-1):
-    for j in range(0, m-1):
-        if i > j and W[i][j] != 0:
-            print(W[i][j])
+# for i in range(0,n-1):
+#     for j in range(0, m-1):
+#         if i > j and W[i][j] != 0:
+#             print(W[i][j])
 #print(b)
+
 print(x)
