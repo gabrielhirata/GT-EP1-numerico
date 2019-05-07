@@ -17,29 +17,32 @@ def sincos(a,b):      # funcao que calcula os valores de sin(s) e cos(c)
         c = s*tau
     return c,s
 
-def rotgivens(X,n,m,i,j,k,c,s):
-    # aplica a Rotacao de Givens nas linhas i e j da matriz X
+def rotgivens(X,m,i,j,k,c,s):   # aplica a Rotacao de Givens nas linhas i e j da matriz X
     for r in range(k,m):
         aux = c*X[i][r] - s*X[j][r]
         X[j][r] = s*X[i][r] + c*X[j][r]
         X[i][r] = aux
 
-def somatorio(W,H,k,m,j):
+def somatorio(W,H,k,m,j):   # funcao auxiliar para realizar somatorios de acordo com 
+                            # as formulas presentes no pseudo-codigo
     soma = 0
     for i in range(k+1,m):
         soma = soma + W[k][i]*H[i][j]
     return soma
 
-def fatqr(W,b,n,m):
+def fatqr(W,b,n,m):     # funcao que aplica sucessivas rotacoes de Givens para triangularizar
+                        # a matriz W e tambem faz as operacoes no vetor b
     for k in range(m):
         for j in range(n-1,k,-1):
             i = j-1
-            if W[j][k] != 0:
+            if W[j][k] != 0:   # caso seja necessário aplicar a rotacao de Givens no elemento
+                # pega-se o elemento da condicao e o elemento da linha acima (i = j-1) para calcular c e s
                 e = W[i][k]
                 f = W[j][k]
                 c,s = sincos(e,f)
-                rotgivens(W,n,m,i,j,k,c,s)
-                rotgivens(b,n,1,i,j,0,c,s)
+                rotgivens(W,m,i,j,k,c,s)
+                rotgivens(b,1,i,j,0,c,s)
+    # laco para resolver o sistema e achar o vetor x
     for k in range(m-1,-1,-1):
         x[k] = (b[k]- somatorio(W,x,k,m,0))/W[k][k]
 
@@ -51,11 +54,11 @@ def criamatriz(n,p,m,item):   # função para criar as matrizes dos testes a) e 
         # como indices de matrizes começam em 0 em python, faz-se -1 nos indices de W
         for i in range(1,n+1):  
             for j in range(1,m+1):                
-                if abs(i-j)==1:
-                    W[i-1][j-1]=1
+                if abs(i-j) == 1:
+                    W[i-1][j-1] = 1
                 else:
-                    W[i-1][j-1]=0
-                W[i-1][i-1]=2
+                    W[i-1][j-1] = 0
+                W[i-1][i-1] = 2
     elif item == "b" or item == "d":
         W = np.zeros((n,m))      # cria matriz de zeros
         # laco para preencher a matriz W conforme pedido no enunciado
@@ -70,12 +73,13 @@ def criamatriz(n,p,m,item):   # função para criar as matrizes dos testes a) e 
         return W,b
     elif item == "b":
         b = np.zeros((n,1))      # cria matriz de zeros
-        # laco para preencher a matriz b conforme pedido no enunciado
+        # laco para preencher a vetor b conforme pedido no enunciado
         for i in range(1,n+1):
             b[i-1] = i
         return W,b
     else:
         A = np.ones((n,m))     # cria matriz de "uns"
+        # laco para preencher a matriz A conforme pedido no enunciado
         for i in range(1,n+1):        
             A[i-1][1] = i
             A[i-1][2] = 2*i-1
@@ -101,7 +105,7 @@ print(x)
 
 # Varios Sistemas Simultaneos
 
-def variossistemas(n,p,m,W,A,H):
+def variossistemas(n,p,m,W,A,H):    # funcao similar a fatqr, porem resolve "m" sistemas 
     for k in range(p):
         for j in range(n-1,k,-1):
             i = j-1
@@ -109,8 +113,9 @@ def variossistemas(n,p,m,W,A,H):
                 e = W[i][k]
                 f = W[j][k]
                 c,s = sincos(e,f)
-                rotgivens(W,n,p,i,j,k,c,s)
-                rotgivens(A,n,m,i,j,0,c,s)
+                rotgivens(W,p,i,j,k,c,s)
+                rotgivens(A,m,i,j,0,c,s)
+    # laco para resolver os m sistemas, solucao dada na matriz H          
     for k in range(p-1,-1,-1):
         for j in range(m):
             H[k][j] = (A[k][j]- somatorio(W,H,k,p,j))/W[k][k]
