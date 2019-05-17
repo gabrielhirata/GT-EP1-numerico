@@ -1,5 +1,5 @@
-"""Módulo principal.
-Lê os argumentos do input do usuário.
+"""Modulo principal.
+Le os argumentos do input do usuario.
 """
 
 import Matrix
@@ -28,10 +28,10 @@ def parte1():
     x = Matrix.solveLinear(W, n, m, b)
 
     max_err = Matrix.maxError(x_ref, x)
-    print("erro absoluto máximo = %e" %max_err)
-    print("solução de referência: ")
+    print("erro absoluto maximo = %e" %max_err)
+    print("solucao de referencia: ")
     print(np.transpose(x_ref))
-    print("solução obtida: ")
+    print("solucao obtida: ")
     Print.okGreen(x)
 
     print("\nitem b)")
@@ -46,18 +46,18 @@ def parte1():
                 W[i][j] = 1/(i+1+j)
             else:
                 W[i][j] = 0
-    x_ref = np.linalg.lstsq(W, b)[0]
+    x_ref = np.linalg.lstsq(W, b, rcond=None)[0]
     x = Matrix.solveLinear(W, n, m, b)
 
     max_err = Matrix.maxError(x_ref, x)
-    print("erro absoluto máximo = %e" %max_err)
-    print("solução de referência: ")
+    print("erro absoluto maximo = %e" %max_err)
+    print("solucao de referencia: ")
     print(x_ref[:,0])
-    print("solução obtida: ")
+    print("solucao obtida: ")
     Print.okGreen(x)
 
 def parte2():
-    print("\nParte 2\n----------------------\nVários sistemas simultâneos\n")
+    print("\nParte 2\n----------------------\nVarios sistemas simultaneos\n")
     print("item a)")
     n = p= 64
     m = 3
@@ -86,34 +86,34 @@ def parte2():
                 b3[i] = 2*i+1
                 A[i][k] = 2*i+1
 
-    x_ref1 = np.linalg.lstsq(W, b1)[0]
-    x_ref2 = np.linalg.lstsq(W, b2)[0]
-    x_ref3 = np.linalg.lstsq(W, b3)[0]
+    x_ref1 = np.linalg.lstsq(W, b1, rcond=None)[0]
+    x_ref2 = np.linalg.lstsq(W, b2, rcond=None)[0]
+    x_ref3 = np.linalg.lstsq(W, b3, rcond=None)[0]
 
     x = Matrix.solveMultipleLinear(W, n, m, p, A)
     x1 = x[:,0]
     x2 = x[:,1]
     x3 = x[:,2]
 
-    print("solução de referência (sistema 1): ")
+    print("solucao de referencia (sistema 1): ")
     print(x_ref1[:,0])
-    print("solução obtida (sistema 1): ")
+    print("solucao obtida (sistema 1): ")
     Print.okGreen(x1)
-    print("\nsolução de referência (sistema 2): ")
+    print("\nsolucao de referencia (sistema 2): ")
     print(x_ref2[:,0])
-    print("solução obtida (sistema 2): ")
+    print("solucao obtida (sistema 2): ")
     Print.okGreen(x2)
-    print("\nsolução de referência (sistema 3): ")
+    print("\nsolucao de referencia (sistema 3): ")
     print(x_ref3[:,0])
-    print("solução obtida (sistema 3): ")
+    print("solucao obtida (sistema 3): ")
     Print.okGreen(x3)
 
     max_err = Matrix.maxError(x_ref1, x1)
-    print("\nerro absoluto máximo 1 = %e" %max_err)
+    print("\nerro absoluto maximo 1 = %e" %max_err)
     max_err = Matrix.maxError(x_ref2, x2)
-    print("erro absoluto máximo 2 = %e" %max_err)
+    print("erro absoluto maximo 2 = %e" %max_err)
     max_err = Matrix.maxError(x_ref3, x3)
-    print("erro absoluto máximo 3 = %e" %max_err)
+    print("erro absoluto maximo 3 = %e" %max_err)
     
     print("\nitem b)")
     n = 20
@@ -142,37 +142,37 @@ def parte2():
                 b3[i] = 2*i+1
                 A[i][k] = 2*i+1
 
-    x_ref1 = np.linalg.lstsq(W, b1)[0]
-    x_ref2 = np.linalg.lstsq(W, b2)[0]
-    x_ref3 = np.linalg.lstsq(W, b3)[0]
+    x_ref1 = np.linalg.lstsq(W, b1, rcond=None)[0]
+    x_ref2 = np.linalg.lstsq(W, b2, rcond=None)[0]
+    x_ref3 = np.linalg.lstsq(W, b3, rcond=None)[0]
 
     x = Matrix.solveMultipleLinear(W, n, m, p, A)
     x1 = x[:,0]
     x2 = x[:,1]
     x3 = x[:,2]
 
-    print("solução de referência (sistema 1): ")
+    print("solucao de referencia (sistema 1): ")
     print(x_ref1[:,0])
-    print("solução obtida (sistema 1): ")
+    print("solucao obtida (sistema 1): ")
     Print.okGreen(x1)
-    print("\nsolução de referência (sistema 2): ")
+    print("\nsolucao de referencia (sistema 2): ")
     print(x_ref2[:,0])
-    print("solução obtida (sistema 2): ")
+    print("solucao obtida (sistema 2): ")
     Print.okGreen(x2)
-    print("\nsolução de referência (sistema 3): ")
+    print("\nsolucao de referencia (sistema 3): ")
     print(x_ref3[:,0])
-    print("solução obtida (sistema 3): ")
+    print("solucao obtida (sistema 3): ")
     Print.okGreen(x3)
 
     max_err = Matrix.maxError(x_ref1, x1)
-    print("\nerro absoluto máximo 1 = %e" %max_err)
+    print("\nerro absoluto maximo 1 = %e" %max_err)
     max_err = Matrix.maxError(x_ref2, x2)
-    print("erro absoluto máximo 2 = %e" %max_err)
+    print("erro absoluto maximo 2 = %e" %max_err)
     max_err = Matrix.maxError(x_ref3, x3)
-    print("erro absoluto máximo 3 = %e" %max_err)
+    print("erro absoluto maximo 3 = %e" %max_err)
 
 def parte3():
-    print("\nParte 3\n----------------------\nFatoração por matrizes não negativas\n")
+    print("\nParte 3\n----------------------\nFatoracao por matrizes nao negativas\n")
     A = [[3/10, 3/5, 0], [1/2, 0, 1], [4/10, 4/5, 0]]
     n = m = 3
     p = 2
@@ -183,17 +183,17 @@ def parte3():
     Print.okGreen(H)
 
 def parte4():
-    Print.warning("*** Dependendo dos valores dos parâmetros, o tempo de execução pode ser muito alto. ***\n")
+    Print.warning("*** Dependendo dos valores dos parametros, o tempo de execucao pode ser muito alto. ***\n")
     parte4_teste1()
     voltar = False
     while not voltar:
-        escolher = input("Deseja escolher valores para os parâmetros? (s/n): ")
+        escolher = input("Deseja escolher valores para os parametros? (s/n): ")
         if escolher == "s":
             parte4_escolher()
         elif escolher == "n":
             voltar = True
         else:
-            Print.fail("Opção inválida! Tente novamente.")
+            Print.fail("Opcao invalida! Tente novamente.")
 
 def parte4_teste1():
     ndig_treino = 18
@@ -220,13 +220,16 @@ def parte4_rodar(ndig_treino, p, n_test):
     Print.okBlue("Feito em %.3f segundos!"%(time.time() - start_time))
     hitRate, _, hitRatePerDigit = instance.results()
     Print.okGreen("Porcentual total de acertos: %.2f" %hitRate)
-    Print.okGreen("Porcentual de acertos por dígito:")
+    Print.okGreen("Porcentual de acertos por digito:")
     for i in range(10):
         Print.okGreen("%d: %.2f" %(i, hitRatePerDigit[i]))
 
 def printOptions():
-    Print.header("\n----------------------\n(1) Rot-givens\n(2) Vários sistemas simultâneos\n(3) Fatoração por matrizes não negativas\n(4) Classificação de dígitos")
+    Print.header("\n----------------------\n(1) Rot-givens\n(2) Varios sistemas simultaneos\n(3) Fatoracao por matrizes nao negativas\n(4) Classificacao de digitos")
     Print.header("(q) Sair")
+
+def isWindows():
+    return os.name == 'nt'
     
 def main():
     """Main function.
@@ -235,11 +238,11 @@ def main():
     if isWindows():
         kernel32 = ctypes.windll.kernel32
         kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
-    Print.bold("\nBem vindo ao EP1 de xxxxxx!")
+    Print.bold("\nBem vindo ao EP1 de MAP3121!")
     exit = False
     while not exit:
         printOptions()
-        item = input("\nEscolha uma parte do exercício: ")
+        item = input("\nEscolha uma parte do exercicio: ")
         if item == "1":
             parte1()
         elif item == "2":
@@ -252,7 +255,7 @@ def main():
             exit = True
             Print.okBlue("Fim do programa.")
         else:
-            Print.fail("Opção inválida! Tente novamente.")
+            Print.fail("Opcao invalida! Tente novamente.")
 
 if __name__ == "__main__":
     main()

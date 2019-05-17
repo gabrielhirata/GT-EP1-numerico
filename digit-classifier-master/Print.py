@@ -28,5 +28,3 @@ def bold(string):
 
 def underline(string):
     print(Print.UNDERLINE + str(string) + Print.ENDC)
-
-

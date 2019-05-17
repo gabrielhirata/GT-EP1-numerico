@@ -17,9 +17,10 @@ def cs(w_ik, w_jk):
         c : float
         s : float
     """
-    if abs(w_jk) < np.finfo(np.double).eps: # better:  abs(z) < np.finfo(np.double).eps
+    # otimizado
+    if abs(w_jk) < np.finfo(np.double).eps:
         return 1.0,0.0
-    r = np.hypot(w_ik,w_jk) # C99 hypot is safe for under/overflow
+    r = np.hypot(w_ik,w_jk)
     return w_ik/r, -w_jk/r
     # if abs(w_ik) > abs(w_jk):
     #     tau = -w_jk/w_ik
@@ -48,8 +49,6 @@ def Rotgivens(W, n, m, i, j, k, c, s):
     assert type(n) is int, "n should be integer, received %s" %(type(n))
     assert type(m) is int, "m should be integer, received %s" %(type(m))
     assert type(i) is int, "i should be integer, received %s" %(type(i))
-    #assert type(c) is number, "c should be number, received %s" %(type(c))
-    #assert type(s) is number, "s should be number, received %s" %(type(s))
 
     for r in range(k,m):
         aux = c * W[i][r] - s * W[j][r]
@@ -221,14 +220,13 @@ def NMF(A, n, m, p):
     H = np.zeros((p, m))
 
     epislon = 0.00001
-    itmax = 10
+    itmax = 100
     err_ant = squaredError(A, W, H)
-    err = err_ant
+    err = np.inf
     iterations = 0
-    while err/err_ant > epislon and iterations < itmax:
+    while abs(err-err_ant) > epislon and iterations < itmax:
         start_time = time.time()
         normalizeMatrix(W, n, p)
-        #print("Normalizacao da matriz feita em %.3f segundos!"%(time.time() - start_time))
         
         start_time = time.time()
         H = solveMultipleLinear(deepcopy(W), n, m, p, deepcopy(A))
@@ -236,7 +234,6 @@ def NMF(A, n, m, p):
         
         start_time = time.time()
         positiveMatrix(H, p, m)
-        #print("positiveMatrix feita em %.3f segundos!"%(time.time() - start_time))
         
         At = np.transpose(A)
         Ht = deepcopy(np.transpose(H))
@@ -250,10 +247,9 @@ def NMF(A, n, m, p):
         err_ant = err
         start_time = time.time()
         err = squaredError(A, W, H)
-        #print("calculo do erro feita em %.3f segundos!"%(time.time() - start_time))
         iterations+=1
         print(iterations)
-        print(err)
+        print(abs(err-err_ant))
     return W, H
 
 def readMatrix(filename, m):
